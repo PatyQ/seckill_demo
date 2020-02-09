@@ -1,0 +1,12 @@
+spring:
+  rabbitmq:
+    host: 192.168.184.222
+#    host: cheeeg.com
+    username: guest
+    password: guest
+    virtual-host: /
+
+    listener:
+      simple:
+        #设置rabbitmq的消费者手动确认--不需要反复添加商品生成静态页面
+        acknowledge-mode: manual

@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      name: application
+      #      ,redis,rabbitmq
+      profile: goods,eureka,datasource,redis,rabbitmq
+      uri: http://localhost:20000

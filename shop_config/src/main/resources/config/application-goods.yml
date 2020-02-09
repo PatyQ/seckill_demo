@@ -1,0 +1,5 @@
+server:
+  port: 12060
+spring:
+  application:
+    name: micservice-goods

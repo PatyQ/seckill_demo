@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#request.getContextPath() + '/'}"/>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+
+<div th:fragment="myheader">
+<script>
+        //进行登录认证的操作
+        $(function(){
+            $.ajax({
+                url:"http://localhost/sso/islogin",
+                // xhrFields: {
+                //     withCredentials: true
+                // },
+                success: function(data){
+                    debugger
+                    console.info(data);
+                    if(data.code == "200"){
+                        //已经登录
+                        $("#pid").html(data.data.nickname + "您好，欢迎来到<b>ShopCZ商城</b>  <a href='http://localhost:8892/sso/logout'>注销</a>");
+                    } else {
+                        $("#pid").html("" +
+                            "[<a onclick='mylogin();'>登录</a>]" +
+                            "[<a href=\"http://localhost/sso/toregister\">注册</a>]");
+                    }
+                },
+                dataType: "json"
+            });
+        });
+
+        //发送ajax获得购物车的信息
+        // $(function(){
+        //     $.ajax({
+        //         url: "http://localhost:9993/car/smallcat",
+        //         success: function(data){
+        //             //展示购物车列表
+        //             if(data != null && data.length > 0){
+        //
+        //                 //显示购物车的数量
+        //                 $("#cartnumber").html(data.length);
+        //
+        //                 //循环列出购物车的商品列表
+        //                 var html = "<ul>";
+        //                 for(var i = 0; i < data.length; i++){
+        //                     html += "<li style='width: 400px; height: auto;'>";
+        //                     html += "<img style='width: 60px; height: 50px' src='"+'http://cheeeg.com:8080/'+ data[i].goods.fmurl + "'/>";
+        //                     html += "<b style='margin-left: 10px'>" + data[i].goods.subject + "</b>";
+        //                     html += "<span style='margin-left: 10px'>" + data[i].goods.price + "x" + data[i].number + "</span>";
+        //                     html += "<span style='margin-left: 10px'>小计：" + data[i].cartPrice + "</span>";
+        //                     html += "</li>";
+        //                 }
+        //                 html += "</ul>";
+        //                 // alert(html)
+        //                 $("#cartList").html(html);
+        //             }
+        //         },
+        //         dataType: "jsonp"
+        //     });
+        // })
+
+
+    function mylogin(){
+        //获得当前页面url
+        var returnUrl = location.href;
+        //编码url
+        returnUrl = encodeURIComponent(returnUrl);
+        location.href="http://localhost/sso/gologin?returnUrl=" + returnUrl;
+    }
+
+
+</script>
+
+<div class="shop_hd_topNav">
+    <div class="shop_hd_topNav_all">
+        <!-- Header TopNav Left -->
+        <div class="shop_hd_topNav_all_left">
+            <p id="pid">
+<!--                <a href="http://localhost:8892/sso/islogin">这里填写已经登录的用户名</a>-->
+            </p>
+        </div>
+        <!-- Header TopNav Left End -->
+
+        <!-- Header TopNav Right -->
+        <div class="shop_hd_topNav_all_right">
+            <ul class="topNav_quick_menu">
+
+                <li>
+                    <div class="topNav_menu">
+                        <a href="#" class="topNavHover">我的商城<i></i></a>
+                        <div class="topNav_menu_bd" style="display:none;" >
+                            <ul>
+                                <li><a title="已买到的商品" target="_top" href="#">已买到的商品</a></li>
+                                <li><a title="个人主页" target="_top" href="#">个人主页</a></li>
+                                <li><a title="我的好友" target="_top" href="#">我的好友</a></li>
+                                <li><a title="我的订单" target="_top" href="http://localhost:9993/orders/list">我的订单</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="topNav_menu">
+                        <a href="#" class="topNavHover">卖家中心<i></i></a>
+                        <div class="topNav_menu_bd" style="display:none;">
+                            <ul>
+                                <li><a title="已售出的商品" target="_top" href="#">已售出的商品</a></li>
+                                <li><a title="销售中的商品" target="_top" href="#">销售中的商品</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+            <!--   TODO  购物车-->
+                <li>
+                    <div class="topNav_menu">
+                        <a href="http://localhost:9993/car/showShopCarts" class="topNavHover">购物车<b id="cartnumber">0</b>种商品<i></i></a>
+                        <div class="topNav_menu_bd" style="display:none;">
+                            <div id="cartList" class="topNav_menu_bd" style="width: 400px; height: 400px;">  <!-- 加了之后无法显示 display: none-->
+<!--                                <p>还没有商品，赶快去挑选！</p>-->
+<!--                                <ul>-->
+<!--                                    <li style='width: 400px; height: auto;'>-->
+<!--                                        <img style='width: 60px; height: 50px' src='group1/M00/00/01/rBg24l3tyK6AewolAAAeFPp0KUQ088.JPG'/>-->
+<!--                                        <b style='margin-left: 10px'>只买鱼</b><span style='margin-left: 10px'>17x1</span>-->
+<!--                                        <span style='margin-left: 10px'>小计：17</span>-->
+<!--                                    </li>-->
+<!--                                    <li style='width: 400px; height: auto;'>-->
+<!--                                        <img style='width: 60px; height: 50px' src='group1/M00/00/01/rBg24l3tyjqAILx5AAAeg_t2ffk913.JPG'/>-->
+<!--                                        <b style='margin-left: 10px'>联想拯救者泡面</b>-->
+<!--                                        <span style='margin-left: 10px'>26666x1</span>-->
+<!--                                        <span style='margin-left: 10px'>小计：26666</span>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="topNav_menu">
+                        <a href="#" class="topNavHover">我的收藏<i></i></a>
+                        <div class="topNav_menu_bd" style="display:none;">
+                            <ul>
+                                <li><a title="收藏的商品" target="_top" href="#">收藏的商品</a></li>
+                                <li><a title="收藏的店铺" target="_top" href="#">收藏的店铺</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="topNav_menu">
+                        <a href="#">站内消息</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Header TopNav Right End -->
+    </div>
+    <div class="clear"></div>
+</div>
+</div>
+
+</body>
+</html>
